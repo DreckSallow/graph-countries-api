@@ -19,8 +19,10 @@ const Lenguaje = {
 	},
 };
 
-module.exports = {
-	Region,
-	Border,
-	Lenguaje,
+const CommonModels = {
+	region: Region,
+	border: Border,
+	lenguaje: Lenguaje,
 };
+
+module.exports = CommonModels;

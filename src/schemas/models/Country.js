@@ -15,5 +15,5 @@ const Country = {
 };
 
 module.exports = {
-	Country,
+	country: Country,
 };
