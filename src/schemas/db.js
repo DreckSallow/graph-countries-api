@@ -39,7 +39,12 @@ Lenguaje.belongsToMany(Country, { through: "Country_Lenguaje" });
 
 const connection_db = (callback) => {
 	// If the force is true, then the databse is retore, if is production, then not restore the database
-	sequelize.sync({ force: !IS_PRODUCTION }).then(callback);
+	sequelize
+		.sync({ force: !IS_PRODUCTION })
+		.then(callback)
+		.catch((err) => {
+			console.log("error to connect with database: ", err);
+		});
 };
 
 module.exports = {
