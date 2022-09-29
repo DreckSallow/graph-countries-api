@@ -1,6 +1,6 @@
 const { ApolloServer } = require("apollo-server");
 const { typeDefs } = require("./graphql");
-const { getCountries } = require("./graphql/resolvers/country");
+const { CountryResolver } = require("./graphql/resolvers/country");
 const { connection } = require("./schemas/db");
 
 const server = new ApolloServer({
@@ -8,7 +8,7 @@ const server = new ApolloServer({
 	csrfPrevention: true,
 	resolvers: {
 		Query: {
-			countries: getCountries,
+			countries: CountryResolver.getAllCountries,
 		},
 	},
 });

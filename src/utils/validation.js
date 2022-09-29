@@ -1,3 +1,5 @@
+const { Regex } = require("./Regex");
+
 const checkParams = (params, length) => {
 	const validates = [];
 	params.forEach((param) => {
@@ -16,6 +18,8 @@ const ValidateErros = {
 	IS_BOOLEAN: "IS_BOOLEAN",
 	IS_NULL: "IS_NULL",
 	IS_TYPE: "IS_TYPE",
+	EXIST: "EXIST",
+	IS_VALID_URL_HTTP: "IS_VALID_URL_HTTP",
 };
 
 class Validator {
@@ -29,10 +33,20 @@ class Validator {
 		}
 		this.value = value;
 	}
-	is(type) {
+	is(types) {
 		if (this.isNull) return this;
-		if (typeof this.value !== type) {
-			this.errors[ValidateErros.IS_TYPE] = `The value is not of type ${type}`;
+		if (Array.isArray(types)) {
+			for (let i = 0; i < types.length; i++) {
+				const type = types[i];
+				if (typeof this.value !== type) {
+					this.errors[ValidateErros.IS_TYPE] = `The value is not of type ${type}`;
+					break;
+				}
+			}
+			return this;
+		}
+		if (typeof this.value !== types) {
+			this.errors[ValidateErros.IS_TYPE] = `The value is not of type ${types}`;
 		}
 		return this;
 	}
@@ -123,6 +137,13 @@ class Validator {
 		if (typeof value !== "boolean") {
 			this.errors[ValidateErros.IS_BOOLEAN] = `The value is not boolean`;
 			return this;
+		}
+		return this;
+	}
+	isUrlWithHttp(url) {
+		if (this.isNull) return this;
+		if (!Regex.testUrlHttp(url)) {
+			this.errors[ValidateErros.IS_VALID_URL_HTTP] = `The value not is a url with http or https`;
 		}
 		return this;
 	}
