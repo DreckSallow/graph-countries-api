@@ -4,25 +4,30 @@ const Region = {
 	name: {
 		type: DataTypes.STRING,
 		allowNull: false,
+		unique: true,
 	},
 };
 
 const Border = {
 	initials: {
 		type: DataTypes.STRING,
+		allowNull: false,
+		unique: DataTypes.STRING,
 	},
 };
 
-const Lenguaje = {
+const Language = {
 	name: {
 		type: DataTypes.STRING,
+		allowNull: false,
+		unique: DataTypes.STRING,
 	},
 };
 
 const CommonModels = {
 	region: Region,
 	border: Border,
-	lenguaje: Lenguaje,
+	language: Language,
 };
 
 module.exports = CommonModels;

@@ -33,20 +33,10 @@ class Validator {
 		}
 		this.value = value;
 	}
-	is(types) {
+	is(type) {
 		if (this.isNull) return this;
-		if (Array.isArray(types)) {
-			for (let i = 0; i < types.length; i++) {
-				const type = types[i];
-				if (typeof this.value !== type) {
-					this.errors[ValidateErros.IS_TYPE] = `The value is not of type ${type}`;
-					break;
-				}
-			}
-			return this;
-		}
-		if (typeof this.value !== types) {
-			this.errors[ValidateErros.IS_TYPE] = `The value is not of type ${types}`;
+		if (typeof this.value !== type) {
+			this.errors[ValidateErros.IS_TYPE] = `The value is not of type ${type}`;
 		}
 		return this;
 	}
