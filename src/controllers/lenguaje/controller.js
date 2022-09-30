@@ -18,6 +18,15 @@ class LenguajeController {
 			return { error: true, content: err };
 		}
 	};
+	static async findOrCreateLenguaje(props, { where } = {}) {
+		const [lenguaje, isCreated] = await Lenguaje.findOrCreate({
+			where: where ?? {},
+			defaults: {
+				...props,
+			},
+		});
+		return { error: false, content: { lenguaje, isCreated } };
+	}
 	static getLenguaje = async ({ where } = {}) => {
 		try {
 			const whereProp = where ?? {};
