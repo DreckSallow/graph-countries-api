@@ -20,8 +20,7 @@ const modelsSequelize = Object.entries(objectModels).reduce((acc, [name, model])
 	return { ...acc, [modelName]: modelSeq };
 }, {});
 
-const { Country, Region, Border, Lenguaje } = modelsSequelize;
-console.log(Country, Region, Border, Lenguaje);
+const { Country, Region, Border, Language } = modelsSequelize;
 
 /**** Define the relationship between models: ***/
 
@@ -33,9 +32,9 @@ Region.belongsToMany(Country, { through: "Country_Region" });
 Country.belongsToMany(Border, { through: "Country_Border" });
 Border.belongsToMany(Country, { through: "Country_Border" });
 
-// Country --> Lenguaje
-Country.belongsToMany(Lenguaje, { through: "Country_Lenguaje" });
-Lenguaje.belongsToMany(Country, { through: "Country_Lenguaje" });
+// Country --> Language
+Country.belongsToMany(Language, { through: "Country_Language" });
+Language.belongsToMany(Country, { through: "Country_Language" });
 
 const connection_db = (callback) => {
 	// If the force is true, then the databse is retore, if is production, then not restore the database

@@ -1,7 +1,7 @@
 const { validator, verifyErrors } = require("../../utils/validation");
 
-class LenguajeMiddleware {
-	static createLenguaje(params = {}) {
+class LanguageMiddleware {
+	static createLanguage(params = {}) {
 		const validations = {
 			name: validator(params?.name).is("string"),
 		};
@@ -10,5 +10,5 @@ class LenguajeMiddleware {
 }
 
 module.exports = {
-	LenguajeMiddleware,
+	LanguageMiddleware,
 };
