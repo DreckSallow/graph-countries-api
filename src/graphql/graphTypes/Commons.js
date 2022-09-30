@@ -11,8 +11,8 @@ const BorderType = `
 		initials: String
 	}
 `;
-const LenguajeType = `
-	type Lenguaje {
+const LanguageType = `
+	type Language {
 		id: ID!
 		name: String
 	}
@@ -21,5 +21,5 @@ const LenguajeType = `
 module.exports = {
 	RegionType,
 	BorderType,
-	LenguajeType,
+	LanguageType,
 };
