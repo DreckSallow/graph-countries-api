@@ -1,5 +1,6 @@
 const { ApolloServer } = require("apollo-server");
 const { typeDefs } = require("./graphql");
+// const { BorderResolver } = require("./graphql/resolvers/Border");
 const { CountryResolver } = require("./graphql/resolvers/country");
 const { connection } = require("./schemas/db");
 
@@ -10,6 +11,9 @@ const server = new ApolloServer({
 		Query: {
 			countries: CountryResolver.getAllCountries,
 		},
+		// Mutation: {
+		// 	addBorder: BorderResolver.createBorder,
+		// },
 	},
 });
 

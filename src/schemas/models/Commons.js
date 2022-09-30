@@ -10,12 +10,16 @@ const Region = {
 const Border = {
 	initials: {
 		type: DataTypes.STRING,
+		allowNull: false,
+		unique: DataTypes.STRING,
 	},
 };
 
 const Lenguaje = {
 	name: {
 		type: DataTypes.STRING,
+		allowNull: false,
+		unique: DataTypes.STRING,
 	},
 };
 
