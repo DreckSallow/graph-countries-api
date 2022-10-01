@@ -3,9 +3,8 @@ const { typeDefs } = require("./graphql");
 // const { BorderResolver } = require("./graphql/resolvers/Border");
 const { CountryResolver } = require("./graphql/resolvers/country");
 const { readSeedAndFillDB } = require("./initDB");
-// const { LanguageResolver } = require("./graphql/resolvers/Lenguaje");
+const { LanguageResolver } = require("./graphql/resolvers/Language");
 const { connection } = require("./schemas/db");
-console.clear();
 
 const server = new ApolloServer({
 	typeDefs,
@@ -13,7 +12,8 @@ const server = new ApolloServer({
 	resolvers: {
 		Query: {
 			countries: CountryResolver.getAllCountries,
-			// getLanguages: LanguageResolver.getAllLanguages,
+			getCountryByName: CountryResolver.getOneCountryByName,
+			getLanguages: LanguageResolver.getAllLanguages,
 		},
 		// Mutation: {
 		// 	// addBorder: BorderResolver.createBorder,

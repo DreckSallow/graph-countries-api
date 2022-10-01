@@ -9,6 +9,9 @@ const CountryType = `
 		population: Int
 		image: String
 		fifa: String
+		borders: [Border]
+		languages: [Language]
+		region: Region
 	}
 `;
 

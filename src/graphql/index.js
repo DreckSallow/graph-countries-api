@@ -2,19 +2,15 @@ const { gql } = require("apollo-server");
 
 const country = require("./graphTypes/Country");
 const comun = require("./graphTypes/Commons");
+const { Query } = require("./queries");
 
-const Query = `
-	type Query{
-		countries:[Country]!
-	}
-`;
-const modelReduce = {
+const typeDefs = {
 	...country,
 	...comun,
-	query: Query,
+	...Query,
 };
 
-const globalTypeDefs = Object.values(modelReduce).reduce((str, model) => {
+const globalTypeDefs = Object.values(typeDefs).reduce((str, model) => {
 	return `${str}${model}`;
 }, "");
 

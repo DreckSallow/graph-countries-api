@@ -1,10 +1,12 @@
 const { Country } = require("../../schemas/db");
 
 class CountryController {
-	static getAllCountries = async ({ where } = {}) => {
-		const whereProp = where ?? {};
-		const countries = await Country.findAll({ where: whereProp });
-		console.log(countries);
+	static getAllCountries = async ({ where, include } = {}) => {
+		const props = { where: where ?? {} };
+		if (include) {
+			props.include = include;
+		}
+		const countries = await Country.findAll(props);
 		return { error: false, content: countries };
 	};
 	static createCountry = async (props) => {
