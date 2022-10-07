@@ -5,6 +5,7 @@ const { CountryResolver } = require("./graphql/resolvers/country");
 const { readSeedAndFillDB } = require("./initDB");
 const { LanguageResolver } = require("./graphql/resolvers/Language");
 const { connection } = require("./schemas/db");
+const { RegionResolver } = require("./graphql/resolvers/Region");
 
 const server = new ApolloServer({
 	typeDefs,
@@ -14,6 +15,7 @@ const server = new ApolloServer({
 			countries: CountryResolver.getAllCountries,
 			getCountryByName: CountryResolver.getOneCountryByName,
 			getLanguages: LanguageResolver.getAllLanguages,
+			getRegions: RegionResolver.getAllRegions,
 		},
 		// Mutation: {
 		// 	// addBorder: BorderResolver.createBorder,
