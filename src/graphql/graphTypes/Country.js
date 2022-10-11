@@ -1,10 +1,16 @@
 const CountryType = `
+	input SortCountry{
+		alpha: Boolean
+		population: Boolean
+		area: Boolean
+	}
+
 	type Country {
 		id: ID!
 		name: String!
 		independent: Boolean!
 		capital: String
-		area: Int
+		area: Float
 		icon_flag: String
 		population: Int
 		image: String

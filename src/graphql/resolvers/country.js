@@ -3,16 +3,61 @@ const { CountryController } = require("../../controllers/country/controller");
 const { CountryMiddleware } = require("../../controllers/country/middleware");
 const { Border, Region, Language } = require("../../schemas/db");
 
+const SortTypes = {
+	alpha: "alpha",
+	population: "population",
+	area: "area",
+};
+
+const CountrySort = {
+	[SortTypes.alpha]: "name",
+	[SortTypes.population]: "population",
+	[SortTypes.area]: "area",
+};
+
+const getProps = (props = {}) => {
+	const cleanProps = {
+		language: [],
+		regions: [],
+		sort: [],
+	};
+	if (props.languages && Array.isArray(props.languages)) {
+		cleanProps.language = props.languages;
+	}
+	if (props.regions && Array.isArray(props.regions)) {
+		cleanProps.regions = props.regions;
+	}
+	if (props.sort) {
+		const entries = Object.entries(props.sort);
+		entries.forEach(([k, bool]) => {
+			if (k in SortTypes && Boolean(bool)) {
+				cleanProps.sort.push([CountrySort[k], "ASC"]);
+			}
+		});
+	}
+	return {
+		language: cleanProps.language.length > 0 ? { name: cleanProps.language } : {},
+		regions: cleanProps.regions.length > 0 ? { name: cleanProps.regions } : {},
+		sort: cleanProps.sort,
+	};
+};
+
 class CountryResolver {
-	static async getAllCountries() {
+	static async getAllCountries(root, args) {
+		const cleanProps = getProps(args);
 		const { error, content } = await CountryController.getAllCountries({
+			order: cleanProps.sort,
 			include: [
 				{
 					model: Border,
 				},
-				{ model: Region },
+				{
+					model: Region,
+					where: cleanProps.regions,
+				},
 				{
 					model: Language,
+					where: cleanProps.language,
 				},
 			],
 		});
