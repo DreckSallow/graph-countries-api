@@ -108,7 +108,7 @@ class Validator {
 		}
 		return this;
 	}
-	isNumber({ transform = false }) {
+	isNumber({ transform = false } = {}) {
 		const value = this.value;
 		if (this.isNull) return this;
 		if (typeof value === "string" && transform) {

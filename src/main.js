@@ -17,6 +17,7 @@ const server = new ApolloServer({
 			getLanguages: LanguageResolver.getAllLanguages,
 			getRegions: RegionResolver.getAllRegions,
 			getCountriesMatchName: CountryResolver.getCountriesMatchName,
+			getCountryById: CountryResolver.getCountriesById,
 		},
 		// Mutation: {
 		// 	// addBorder: BorderResolver.createBorder,

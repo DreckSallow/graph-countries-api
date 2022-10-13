@@ -19,6 +19,10 @@ class CountryController {
 		const country = await Country.findOne({ where: whereProp });
 		return { error: false, content: country };
 	};
+	static findByPk = async (id = 0, options = {}) => {
+		const country = await Country.findByPk(id, options);
+		return { error: false, content: country };
+	};
 }
 
 module.exports = {

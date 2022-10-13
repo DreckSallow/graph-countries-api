@@ -92,12 +92,10 @@ class CountryResolver {
 		const onlyParams = {
 			name: args?.name,
 		};
-		console.log("args: ", args);
 		const { existError, errors } = CountryMiddleware.getOneCountryByName({ ...onlyParams });
 		if (existError) {
 			throw new UserInputError(Object.values(errors)[0]);
 		}
-		console.log(onlyParams.name);
 		const { content } = await CountryController.getAllCountries({
 			where: {
 				name: {
@@ -106,6 +104,19 @@ class CountryResolver {
 			},
 		});
 		return content;
+	}
+	static async getCountriesById(root, args) {
+		const onlyParams = {
+			id: Number(args?.id),
+		};
+		const { existError, errors } = CountryMiddleware.getOneCountryById({ ...onlyParams });
+		if (existError) {
+			throw new UserInputError(Object.values(errors)[0]);
+		}
+		const { content: c } = await CountryController.findByPk(onlyParams.id, {
+			include: [{ model: Border }, { model: Language }, { model: Region }],
+		});
+		return { ...c.dataValues, borders: c?.Borders, languages: c?.Languages, region: c?.Region };
 	}
 }
 

@@ -20,6 +20,12 @@ class CountryMiddleware {
 		};
 		return verifyErrors(validations);
 	}
+	static getOneCountryById(params = {}) {
+		const validations = {
+			id: validator(params?.id).isNumber(),
+		};
+		return verifyErrors(validations);
+	}
 }
 
 module.exports = {
