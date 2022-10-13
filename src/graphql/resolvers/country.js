@@ -1,4 +1,5 @@
 const { UserInputError } = require("apollo-server");
+const { Op } = require("sequelize");
 const { CountryController } = require("../../controllers/country/controller");
 const { CountryMiddleware } = require("../../controllers/country/middleware");
 const { Border, Region, Language } = require("../../schemas/db");
@@ -13,6 +14,11 @@ const CountrySort = {
 	[SortTypes.alpha]: "name",
 	[SortTypes.population]: "population",
 	[SortTypes.area]: "area",
+};
+
+const TypeSort = {
+	asc: "ASC",
+	des: "DESC",
 };
 
 const getProps = (props = {}) => {
@@ -31,9 +37,12 @@ const getProps = (props = {}) => {
 		const entries = Object.entries(props.sort);
 		entries.forEach(([k, bool]) => {
 			if (k in SortTypes && Boolean(bool)) {
-				cleanProps.sort.push([CountrySort[k], "ASC"]);
+				cleanProps.sort.push([CountrySort[k], CountrySort[k] === "name" ? TypeSort.asc : TypeSort.des]);
 			}
 		});
+	}
+	if (!props.sort) {
+		cleanProps.sort.push([CountrySort[SortTypes.alpha], "ASC"]);
 	}
 	return {
 		language: cleanProps.language.length > 0 ? { name: cleanProps.language } : {},
@@ -75,6 +84,25 @@ class CountryResolver {
 		const { content } = await CountryController.getCountry({
 			where: {
 				name: onlyParams.name,
+			},
+		});
+		return content;
+	}
+	static async getCountriesMatchName(root, args) {
+		const onlyParams = {
+			name: args?.name,
+		};
+		console.log("args: ", args);
+		const { existError, errors } = CountryMiddleware.getOneCountryByName({ ...onlyParams });
+		if (existError) {
+			throw new UserInputError(Object.values(errors)[0]);
+		}
+		console.log(onlyParams.name);
+		const { content } = await CountryController.getAllCountries({
+			where: {
+				name: {
+					[Op.substring]: "%" + onlyParams.name + "%",
+				},
 			},
 		});
 		return content;
