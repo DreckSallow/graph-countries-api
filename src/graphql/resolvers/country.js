@@ -23,15 +23,15 @@ const TypeSort = {
 
 const getProps = (props = {}) => {
 	const cleanProps = {
-		language: [],
-		regions: [],
+		languages: {},
+		regions: {},
 		sort: [],
 	};
 	if (props.languages && Array.isArray(props.languages)) {
-		cleanProps.language = props.languages;
+		cleanProps.languages = { name: props.languages };
 	}
 	if (props.regions && Array.isArray(props.regions)) {
-		cleanProps.regions = props.regions;
+		cleanProps.regions = { name: props.regions };
 	}
 	if (props.sort) {
 		const entries = Object.entries(props.sort);
@@ -45,8 +45,8 @@ const getProps = (props = {}) => {
 		cleanProps.sort.push([CountrySort[SortTypes.alpha], "ASC"]);
 	}
 	return {
-		language: cleanProps.language.length > 0 ? { name: cleanProps.language } : {},
-		regions: cleanProps.regions.length > 0 ? { name: cleanProps.regions } : {},
+		language: cleanProps.languages,
+		regions: cleanProps.regions,
 		sort: cleanProps.sort,
 	};
 };
