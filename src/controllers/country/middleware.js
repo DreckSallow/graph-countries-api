@@ -14,6 +14,18 @@ class CountryMiddleware {
 		};
 		return verifyErrors(validations);
 	}
+	static getOneCountryByName(params = {}) {
+		const validations = {
+			name: validator(params?.name).isLength({ min: 0, max: 100 }),
+		};
+		return verifyErrors(validations);
+	}
+	static getOneCountryById(params = {}) {
+		const validations = {
+			id: validator(params?.id).isNumber(),
+		};
+		return verifyErrors(validations);
+	}
 }
 
 module.exports = {

@@ -1,10 +1,13 @@
 const { Country } = require("../../schemas/db");
 
 class CountryController {
-	static getAllCountries = async ({ where } = {}) => {
-		const whereProp = where ?? {};
-		const countries = await Country.findAll({ where: whereProp });
-		console.log(countries);
+	static getAllCountries = async ({ where, include, order } = {}) => {
+		const props = { where: where ?? {} };
+		if (include) {
+			props.include = include;
+		}
+		if (order) props.order = order;
+		const countries = await Country.findAll(props);
 		return { error: false, content: countries };
 	};
 	static createCountry = async (props) => {
@@ -14,6 +17,10 @@ class CountryController {
 	static getCountry = async ({ where } = {}) => {
 		const whereProp = where ?? {};
 		const country = await Country.findOne({ where: whereProp });
+		return { error: false, content: country };
+	};
+	static findByPk = async (id = 0, options = {}) => {
+		const country = await Country.findByPk(id, options);
 		return { error: false, content: country };
 	};
 }

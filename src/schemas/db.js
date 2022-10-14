@@ -25,8 +25,8 @@ const { Country, Region, Border, Language } = modelsSequelize;
 /**** Define the relationship between models: ***/
 
 // Country --> Region
-Country.hasOne(Region, { through: "Country_Region" });
-Region.belongsToMany(Country, { through: "Country_Region" });
+Country.belongsTo(Region);
+Region.hasMany(Country);
 
 // Country --> Border
 Country.belongsToMany(Border, { through: "Country_Border" });
