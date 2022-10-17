@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 const objectModels = require("./readModels");
 const {
-	ENV_VARS: { DB, IS_PRODUCTION },
+	ENV_VARS: { DB },
 } = require("../config/index");
 
 const getNameModel = (name) => name[0].toUpperCase() + name.slice(1).toLowerCase();
@@ -12,6 +12,9 @@ const sequelize = new Sequelize(DB.NAME, DB.USERNAME, DB.PASSWORD, {
 	dialect: "postgres",
 	logging: false,
 	ssl: true,
+	pool: {
+		acquire: 60000,
+	},
 });
 
 // Read all models and defined the tables models with sequelize:
@@ -40,7 +43,7 @@ Language.belongsToMany(Country, { through: "Country_Language" });
 const connection_db = (callback) => {
 	// If the force is true, then the databse is retore, if is production, then not restore the database
 	sequelize
-		.sync({ force: !IS_PRODUCTION })
+		.sync({ force: true })
 		.then(callback)
 		.catch((err) => {
 			console.log("error to connect with database: ", err);
