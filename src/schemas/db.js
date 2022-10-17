@@ -11,6 +11,7 @@ const sequelize = new Sequelize(DB.NAME, DB.USERNAME, DB.PASSWORD, {
 	port: DB.PORT,
 	dialect: "postgres",
 	logging: false,
+	ssl: true,
 });
 
 // Read all models and defined the tables models with sequelize:

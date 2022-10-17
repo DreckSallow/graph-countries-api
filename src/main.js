@@ -24,6 +24,7 @@ const server = new ApolloServer({
 		// 	// addLanguage: LanguageResolver.createLanguage,
 		// },
 	},
+	persistedQueries: false,
 });
 
 connection(() => {
