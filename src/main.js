@@ -1,14 +1,20 @@
-const { ApolloServer } = require("apollo-server");
+const { ApolloServer } = require("apollo-server-express");
 const { typeDefs } = require("./graphql");
 // const { BorderResolver } = require("./graphql/resolvers/Border");
 const { CountryResolver } = require("./graphql/resolvers/country");
-const { readSeedAndFillDB } = require("./initDB");
 const { LanguageResolver } = require("./graphql/resolvers/Language");
 const { connection } = require("./schemas/db");
 const { RegionResolver } = require("./graphql/resolvers/Region");
+const express = require("express");
+const {
+	ENV_VARS: { IS_PRODUCTION, SERVER },
+} = require("./config/index");
 
-const server = new ApolloServer({
+const app = express();
+
+const apolloServer = new ApolloServer({
 	typeDefs,
+	introspection: !IS_PRODUCTION,
 	csrfPrevention: true,
 	resolvers: {
 		Query: {
@@ -27,21 +33,11 @@ const server = new ApolloServer({
 	persistedQueries: false,
 });
 
-connection(() => {
-	console.log("Connection is succsefully with database ✨");
-	readSeedAndFillDB()
-		.then(() => {
-			console.log("The database was filled successfully");
-			server
-				.listen()
-				.then(({ url }) => {
-					console.log("🚀 server is running at ", url);
-				})
-				.catch((err) => {
-					console.log("something went wrong when running the server: ", err);
-				});
-		})
-		.catch((err) => {
-			console.log("Could not fill database, ", err);
-		});
+connection(async () => {
+	await apolloServer.start();
+	apolloServer.applyMiddleware({ app });
+
+	app.listen(SERVER.PORT, () => {
+		console.log("server listen on port: ", SERVER.PORT);
+	});
 });
