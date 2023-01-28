@@ -6,11 +6,13 @@ const { LanguageResolver } = require("./graphql/resolvers/Language");
 const { connection } = require("./schemas/db");
 const { RegionResolver } = require("./graphql/resolvers/Region");
 const express = require("express");
+const cors = require("cors");
 const {
-	ENV_VARS: { IS_PRODUCTION, SERVER },
+	ENV_VARS: { IS_PRODUCTION, SERVER, ORIGIN },
 } = require("./config/index");
 
 const app = express();
+app.use(cors({ origin: ORIGIN }));
 
 const apolloServer = new ApolloServer({
 	typeDefs,
