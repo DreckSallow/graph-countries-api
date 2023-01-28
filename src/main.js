@@ -12,7 +12,7 @@ const {
 } = require("./config/index");
 
 const app = express();
-app.use(cors({ origin: ORIGIN }));
+app.use(cors({ origin: ORIGIN, methods: ["GET", "POST", "PUT", "DELETE"] }));
 
 const apolloServer = new ApolloServer({
 	typeDefs,
